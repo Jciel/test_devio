@@ -46,11 +46,10 @@ E podemos acessar o projeto com o endereço informado pelo comando
 ## API  
 A API está documentada com Swegger e o arquivo de configuração está localizado em ``/public/openapi.json``.
 
-
-### Testes  
-Podemos executar os testes com o comando
+### Migrations
+Para executar a migrations que irá criar a estrutura do banco de dados executamos o comando 
 ```sh
-composer test
+php artisan php artisan migrate
 ```
 
 ### Seeder
@@ -58,3 +57,10 @@ Para executar os seeds para popular o banco de dados podemos executar o comando
 ```sh
 php artisan db:seed
 ```
+
+### Testes  
+Podemos executar os testes com o comando
+```sh
+composer test
+```
+

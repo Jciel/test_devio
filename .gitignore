@@ -3,6 +3,6 @@
 Homestead.json
 Homestead.yaml
 .phpunit.result.cache
-.gen/
+gen/
 
 database/database.sqlite
