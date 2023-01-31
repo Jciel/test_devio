@@ -1,0 +1,290 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test Devio API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/v1/order": {
+            "get": {
+                "summary": "Retorna uma lista dos Pedidos",
+                "operationId": "order",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/order/todo": {
+            "get": {
+                "summary": "Retorna uma lista dos Pedidos com status 'a fazer'",
+                "operationId": "todo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/order/done": {
+            "get": {
+                "summary": "Retorna uma lista dos Pedidos com status 'pronto'",
+                "operationId": "done",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/order/{id}/finalize-order": {
+            "patch": {
+                "summary": "Finaliza um pedido atualizando seu status para 'pronto'",
+                "operationId": "finalizeOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do pedido a ser finalizado",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/order/{id}/add-product": {
+            "patch": {
+                "summary": "Adiciona um novo produto a um pedido",
+                "operationId": "addProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do pedido a ser adicionado novo produto",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "product_id",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/order/{id}/remove-product": {
+            "patch": {
+                "summary": "Remove um produto de um pedido",
+                "operationId": "removeProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do pedido a ser adicionado novo produto",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "product_id",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/products": {
+            "get": {
+                "summary": "Retorna uma lista dos produtos",
+                "operationId": "products",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/schemas/Product"
+                    }
+                }
+            }
+        },
+        "/v1/search?q={q}": {
+            "get": {
+                "summary": "Retorna uma lista dos produtos filtrados pelo parâmetro passado",
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Parâemtro utilizado no filtro, pode ser o nome ou código do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/schemas/Product"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Order": {
+                "title": "Order",
+                "description": "Order model",
+                "properties": {
+                    "": {
+                        "description": "Order Products",
+                        "type": "array",
+                        "format": "[#/components/schemas/Product]",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        },
+                        "default": "[]"
+                    },
+                    "clientName": {
+                        "description": "Client Name",
+                        "type": "string",
+                        "format": "string",
+                        "default": ""
+                    },
+                    "total": {
+                        "description": "Total",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": 0
+                    },
+                    "change": {
+                        "description": "Change",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": 0
+                    },
+                    "status": {
+                        "description": "Order status.",
+                        "type": "string",
+                        "format": "string",
+                        "default": "TODO",
+                        "enum": [
+                            "DONE",
+                            "TODO"
+                        ]
+                    }
+                },
+                "type": "Illuminate\\Database\\Eloquent\\Model"
+            },
+            "Product": {
+                "title": "Product",
+                "description": "Product model",
+                "properties": {
+                    "name": {
+                        "description": "Name",
+                        "type": "string",
+                        "format": "string",
+                        "default": ""
+                    },
+                    "image": {
+                        "description": "Image",
+                        "type": "string",
+                        "format": "string",
+                        "default": ""
+                    },
+                    "description": {
+                        "description": "Description",
+                        "type": "string",
+                        "format": "string",
+                        "default": ""
+                    },
+                    "code": {
+                        "description": "Code",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": 0
+                    },
+                    "price": {
+                        "description": "Price",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": 0
+                    }
+                },
+                "type": "Illuminate\\Database\\Eloquent\\Model"
+            }
+        }
+    }
+}
